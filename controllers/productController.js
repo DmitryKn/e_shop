@@ -4,16 +4,27 @@ exports.getMainPage = (req, res) => {
   res.render('index');
 };
 
-exports.postProduct = (req, res) => {
-  const product = new Product(req.body.title);
-  product.save();
-  res.redirect('/products');
+exports.getAddProduct = (req, res) => {
+  res.render('admin/add-product', {
+    pageTitle: 'Add Product',
+    path: '/admin/add-product',
+  });
 };
 
-exports.getAllproducts = (req, res) => {
+exports.postAddProduct = (req, res) => {
+  const product = new Product(req.body.title);
+  product.save();
+  res.redirect('/product-list');
+};
+
+exports.getAllProducts = (req, res) => {
   Product.fetchAll((list) => {
-    res.render('products', {
+    res.render('shop/product-list', {
       products: list,
     });
   });
+};
+
+exports.getProductDetails = (req, res) => {
+  res.render('shop/product-details');
 };
