@@ -1,9 +1,5 @@
 const Product = require('../models/product');
 
-exports.getMainPage = (req, res) => {
-  res.render('index');
-};
-
 exports.getAddProduct = (req, res) => {
   res.render('admin/add-product', {
     pageTitle: 'Add Product',
@@ -17,14 +13,11 @@ exports.postAddProduct = (req, res) => {
   res.redirect('/product-list');
 };
 
-exports.getAllProducts = (req, res) => {
+exports.getProducts = (req, res) => {
   Product.fetchAll((list) => {
-    res.render('shop/product-list', {
+    res.render('admin/products', {
+      pageTitle: 'Admin products',
       products: list,
     });
   });
-};
-
-exports.getProductDetails = (req, res) => {
-  res.render('shop/product-details');
 };

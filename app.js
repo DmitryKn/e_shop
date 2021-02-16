@@ -12,8 +12,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use('/admin', adminRoutes);
 
 app.use((req, res, next) => {
   res.render('404');
