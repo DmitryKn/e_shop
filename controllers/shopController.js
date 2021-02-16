@@ -15,6 +15,15 @@ exports.getProducts = (req, res) => {
   });
 };
 
+exports.getProduct = (req, res) => {
+  const prodId = req.params.itemId;
+  Product.findById(prodId, (product) => {
+    res.render('shop/product-details', {
+      product: product,
+    });
+  });
+};
+
 exports.getProductDetails = (req, res) => {
   res.render('shop/product-details', {
     pageTitle: 'Details',
@@ -24,6 +33,12 @@ exports.getProductDetails = (req, res) => {
 exports.getCart = (req, res) => {
   res.render('shop/cart', {
     pageTitle: 'Cart',
+  });
+};
+
+exports.getOrders = (req, res) => {
+  res.render('shop/orders', {
+    pageTitle: 'Orders',
   });
 };
 

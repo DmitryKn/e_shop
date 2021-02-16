@@ -12,16 +12,21 @@
           <article class="card">
             <img src="<%= item.imageUrl %>" class="card-img-top" alt="<%= item.title %>">
             <div class="card-body">
-              <h5 class="card-title">
+              <h5 class="card-title text-center">
                 <%= item.title %>
               </h5>
-              <h5 class="card-text">$<%= item.price %>
+              <h5 class="card-text text-center">$<%= item.price %>
               </h5>
               <p class="card-text">
                 <%= item.description %>
               </p>
             </div>
-            <button class='btn'>Add to Cart</button>
+            <div class="mx-auto mb-2">
+              <a href="/products/<%= item.id %>" class="btn btn-primary">Details</a>
+              <form action="/add-to-cart" method="POST">
+                <button class='btn btn-primary' type='submit'>Add to Cart</button>
+              </form>
+            </div>
           </article>
           <% } %>
       <% } else { %>

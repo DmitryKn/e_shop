@@ -4,6 +4,14 @@
 
   <body>
     <%- include('../layouts/nav.ejs') %>
-      <h1>Product details</h1>
-
-      <%- include('../layouts/footer.ejs') %>
+      <div class="col-6 mx-auto">
+        <h1 class="text-center"><%= product.title %></h1>
+        <div>
+          <img class="img-fluid" src="<%= product.imageUrl %>" alt="<%= product.title %>">
+        </div>
+        <h2>$<%= product.price %></h2>
+        <p><%= product.description %></p>
+        <form action="/cart" method="post">
+          <button class="btn btn-primary" type="submit">Add to Cart</button>
+        </form>
+      </div>

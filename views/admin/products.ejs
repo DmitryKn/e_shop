@@ -12,21 +12,26 @@
             <article class="card">
               <img src="<%= item.imageUrl %>" class="card-img-top" alt="<%= item.title %>">
               <div class="card-body">
-                <h5 class="card-title">
+                <h5 class="card-title text-center">
                   <%= item.title %>
                 </h5>
-                <h5 class="card-text">$<%= item.price %>
+                <h5 class="card-text text-center">$<%= item.price %>
                 </h5>
                 <p class="card-text">
                   <%= item.description %>
                 </p>
               </div>
-              <button class='btn'>Add to Cart</button>
+              <div class="mx-auto">
+                <a href="/admin/edit-product" class='btn btn-secondary'>Edit</a>
+                <form action="/admin/delete-product" method="POST">
+                  <button class='btn btn-danger' type="submit">Delete</button>
+                </form>
+              </div>
             </article>
             <% } %>
-        <% } else { %>
-          <p>No products</p>
-        <% } %>
+          <% } else { %>
+            <p>No products</p>
+          <% } %>
       </div>
 
 
