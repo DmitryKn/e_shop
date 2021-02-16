@@ -5,17 +5,29 @@
 
   <body>
     <%- include('../layouts/nav.ejs')%>
-    <h1>Product list</h1>
+    <div class="col-3">
+      <h1>Product list</h1>
       <% if (products.length> 0) { %>
-        <ul>
-          <% for (let item of products) { %>
-            <li>
-              <%= item.title %>
-            </li>
-            <% } %>
-        </ul>
+        <% for (item of products) { %>
+          <article class="card">
+            <img src="<%= item.imageUrl %>" class="card-img-top" alt="<%= item.title %>">
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= item.title %>
+              </h5>
+              <h5 class="card-text">$<%= item.price %>
+              </h5>
+              <p class="card-text">
+                <%= item.description %>
+              </p>
+            </div>
+            <button class='btn'>Add to Cart</button>
+          </article>
+          <% } %>
       <% } else { %>
         <p>No products</p>
       <% } %>
+    </div>
+
 
     <%- include('../layouts/footer.ejs')%>
