@@ -42,7 +42,7 @@ exports.getEditProduct = (req, res) => {
   });
 };
 
-exports.postEditProduct = () => {
+exports.postEditProduct = (req, res) => {
   const prodId = req.body.productId;
   const updatedTitle = req.body.title;
   const updatedPrice = req.body.price;

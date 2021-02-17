@@ -30,8 +30,8 @@ module.exports = class Product {
     getProductsFromFile((products) => {
       if (this.id) {
         //If product.id exists, we will update Product
-        const existingProductIndex = product.findIndex(
-          (prod = prod.id === this.id)
+        const existingProductIndex = products.findIndex(
+          (prod) => prod.id === this.id
         );
         const updatedProducts = [...products];
         updatedProducts[existingProductIndex] = this;

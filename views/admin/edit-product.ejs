@@ -6,7 +6,7 @@
     <%- include('../layouts/nav.ejs') %>
       <div class="col-5">
         <h3 class="text-center">Add a new product</h1>
-          <form action="/admin/<% if (editing) { %>editproduct<% } else { %>add-product<% } %>" method="POST">
+          <form action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST">
             <div class="mb-3">
               <label class="form-label" for="title">Title</label>
               <input class="form-control" type="text" name="title" id="title" value="<% if (editing) { %><%= product.title %><% } %>">
