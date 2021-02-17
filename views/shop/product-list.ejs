@@ -5,7 +5,7 @@
 
   <body>
     <%- include('../layouts/nav.ejs')%>
-    <div class="col-3">
+    <div class="col-4">
       <h1>Product list</h1>
       <% if (products.length> 0) { %>
         <% for (item of products) { %>
@@ -21,10 +21,11 @@
                 <%= item.description %>
               </p>
             </div>
-            <div class="mx-auto mb-2">
+            <div class="mb-2">
               <a href="/products/<%= item.id %>" class="btn btn-primary">Details</a>
-              <form action="/add-to-cart" method="POST">
+              <form action="/cart" method="POST">
                 <button class='btn btn-primary' type='submit'>Add to Cart</button>
+                <input type="hidden" name="productId" value="<%= item.id %>">
               </form>
             </div>
           </article>
