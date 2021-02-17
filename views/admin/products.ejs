@@ -21,10 +21,11 @@
                   <%= item.description %>
                 </p>
               </div>
-              <div class="mx-auto">
+              <div class="d-flex justify-content-center mb-2">
                 <a href="/admin/edit-product/<%= item.id %>?edit=true" class='btn btn-secondary'>Edit</a>
                 <form action="/admin/delete-product" method="POST">
-                  <button class='btn btn-danger' type="submit">Delete</button>
+                  <input type="hidden" value="<%= item.id %>" name="productId">
+                  <button class='btn btn-danger mx-1' type="submit">Delete</button>
                 </form>
               </div>
             </article>

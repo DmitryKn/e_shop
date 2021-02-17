@@ -27,14 +27,12 @@
             </div>
             <% if (editing) { %>
               <input type="hidden" value="<%= product.id %>" name="productId">
-            <% } else { %>
-                AddProduct
             <% } %>
             <button class="btn btn-primary" type="submit">
               <% if (editing) { %>
                 Update Product
               <% } else { %>
-                AddProduct
+                Add Product
               <% } %>
             </button>
           </form>
