@@ -4,6 +4,20 @@
 
   <body>
     <%- include('../layouts/nav.ejs') %>
-      <h1>Cart</h1>
-
-    <%- include('../layouts/footer.ejs') %>
+    <main>
+      <% if (products.length > 0) { %>
+        <ul>
+          <% products.forEach(p => { %>
+            <li>
+              <p><%= p.productData.title %> (<%= p.qty %>)</p>
+              <form action="/cart-delete-item" method="POST">
+                <input type="hidden" value="<%= p.productData.id %>" name="productId">
+                <button class="btn btn-danger" type="submit">DELETE</button>
+              </form>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+       <h1>No products in Cart</h1>
+      <% } %>
+    </main>
