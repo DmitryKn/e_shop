@@ -13,8 +13,10 @@ exports.postAddProduct = (req, res) => {
   const description = req.body.description;
 
   const product = new Product(null, title, imageUrl, price, description);
-  product.save();
-  res.redirect('/products');
+  product
+    .save()
+    .then(res.redirect('/products'))
+    .catch((err) => console.log(err));
 };
 
 exports.getProducts = (req, res) => {

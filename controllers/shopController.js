@@ -8,12 +8,16 @@ exports.getMainPage = (req, res) => {
 };
 
 exports.getProducts = (req, res) => {
-  Product.fetchAll((list) => {
-    res.render('shop/product-list', {
-      pageTitle: 'List',
-      products: list,
+  Product.fetchAll()
+    .then(([rows, fieldData]) => {
+      res.render('shop/product-list', {
+        pageTitle: 'List',
+        products: rows,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 };
 
 exports.getProduct = (req, res) => {
