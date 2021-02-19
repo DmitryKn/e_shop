@@ -22,11 +22,13 @@ exports.getProducts = (req, res) => {
 
 exports.getProduct = (req, res) => {
   const prodId = req.params.itemId;
-  Product.findById(prodId, (product) => {
-    res.render('shop/product-details', {
-      product: product,
-    });
-  });
+  Product.findById(prodId)
+    .then(([product]) => {
+      res.render('shop/product-details', {
+        product: product[0],
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getProductDetails = (req, res) => {
