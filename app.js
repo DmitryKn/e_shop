@@ -3,8 +3,7 @@ const bodyParser = require('body-parser');
 const shopRoutes = require('./routes/shopRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const path = require('path');
-const db = require('mysql2');
-
+const sequelize = require('./utils/database');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,6 +19,11 @@ app.use((req, res, next) => {
   res.render('404');
 });
 
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
-});
+sequelize
+  .sync()
+  .then((results) => {
+    app.listen(3000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });

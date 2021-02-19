@@ -8,24 +8,23 @@ exports.getMainPage = (req, res) => {
 };
 
 exports.getProducts = (req, res) => {
-  Product.fetchAll()
-    .then(([rows, fieldData]) => {
+  Product.findAll()
+    .then((products) => {
       res.render('shop/product-list', {
         pageTitle: 'List',
-        products: rows,
+        products: products,
       });
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => console.log(err));
 };
 
 exports.getProduct = (req, res) => {
   const prodId = req.params.itemId;
-  Product.findById(prodId)
-    .then(([product]) => {
+  Product.findAll({ where: { id: prodId } }); //альт версия с условиями
+  Product.findByPk(prodId)
+    .then((product) => {
       res.render('shop/product-details', {
-        product: product[0],
+        product: product,
       });
     })
     .catch((err) => console.log(err));
@@ -84,3 +83,6 @@ exports.postCartDeleteItem = (req, res) => {
     res.redirect('/cart');
   });
 };
+
+// https://i.pinimg.com/474x/59/fc/ec/59fcec512d9d744c8dfde260ae6fc3c0.jpg
+//https://assets.teenvogue.com/photos/5cd4384fac4d9e712fe2ebb0/2:3/w_1852,h_2778,c_limit/The%20Gravity%20of%20Us_.jpg
