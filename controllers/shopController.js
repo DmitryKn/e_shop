@@ -20,7 +20,6 @@ exports.getProducts = (req, res) => {
 
 exports.getProduct = (req, res) => {
   const prodId = req.params.itemId;
-  Product.findAll({ where: { id: prodId } }); //альт версия с условиями
   Product.findByPk(prodId)
     .then((product) => {
       res.render('shop/product-details', {
