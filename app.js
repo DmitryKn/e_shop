@@ -1,11 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const shopRoutes = require('./routes/shopRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const path = require('path');
 const sequelize = require('./utils/database');
 const Product = require('./models/product');
 const User = require('./models/user');
+const Cart = require('./models/cart');
+const CartItem = require('./models/cart-item');
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,6 +26,7 @@ app.use((req, res, next) => {
     })
     .catch((err) => console.log(err));
 });
+
 app.use(shopRoutes);
 app.use('/admin', adminRoutes);
 
@@ -31,9 +36,14 @@ app.use((req, res, next) => {
 
 Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
 
 sequelize
-  .sync()
+  .sync({ force: true })
+  //.sync()
   .then((results) => {
     return User.findByPk(1);
   })
