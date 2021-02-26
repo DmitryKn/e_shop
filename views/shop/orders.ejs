@@ -4,5 +4,21 @@
 
   <body>
     <%- include('../layouts/nav.ejs') %>
-      <h1>Orders</h1>
-    <%- include('../layouts/footer.ejs') %>
+      <main>
+        <% if (orders.length <= 0) { %>
+          <p>Nothing there</p>
+        <% } else { %>
+          <ul>
+            <% for (let order of orders) { %>
+              <li>
+                <h3># <%= order.id %></h3>
+                <ul>
+                  <% order.products.forEach(item => { %>
+                    <li> <%= item.title %> <%= item.orderItem.quantity %></li>
+                  <% }) %>
+                </ul>
+              </li>
+            <% } %>
+          </ul>
+        <% } %>
+      </main>

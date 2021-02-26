@@ -85,9 +85,11 @@ exports.postCart = (req, res) => {
 };
 
 exports.postOrder = (req, res) => {
+  let fetchedCart;
   req.user
     .getCart()
     .then((cart) => {
+      fetchedCart = cart;
       return cart.getProducts();
     })
     .then((products) => {
@@ -97,7 +99,6 @@ exports.postOrder = (req, res) => {
           return order.addProducts(
             products.map((prod) => {
               prod.orderItem = {
-                //like table name
                 quantity: prod.cartItem.quantity,
               };
               return prod;
@@ -107,21 +108,25 @@ exports.postOrder = (req, res) => {
         .catch((err) => console.log(err));
     })
     .then((result) => {
-      res.redirect('orders');
+      return fetchedCart.setProducts(null);
+    })
+    .then((result) => {
+      res.redirect('/orders');
     })
     .catch((err) => console.log(err));
 };
 
 exports.getOrders = (req, res) => {
-  res.render('shop/orders', {
-    pageTitle: 'Orders',
-  });
-};
-
-exports.getCheckout = (req, res) => {
-  res.render('shop/checkout', {
-    pageTitle: 'Checkout',
-  });
+  req.user
+    .getOrders({ include: ['products'] })
+    .then((orders) => {
+      console.log(orders);
+      res.render('shop/orders', {
+        pageTitle: 'Orders',
+        orders: orders,
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.postCartDeleteItem = (req, res) => {
