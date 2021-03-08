@@ -9,8 +9,8 @@ const mongoConnect = (callback) => {
   )
     .then((client) => {
       console.log('DB connected');
-      db = client.db('test'); //storing connection in var
-      callback(client);
+      db = client.db(); //storing connection in var
+      callback();
     })
     .catch((err) => {
       console.log(err);
