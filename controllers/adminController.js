@@ -1,4 +1,7 @@
 const Product = require('../models/product');
+const mongodb = require('mongodb');
+
+const ObjectId = mongodb.ObjectId;
 
 exports.getAddProduct = (req, res) => {
   res.render('admin/edit-product', {
@@ -25,9 +28,7 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res) => {
-  //Product.findAll()
-  req.user
-    .getProducts()
+  Product.fetchAll()
     .then((products) => {
       res.render('admin/products', {
         pageTitle: 'List',
@@ -37,18 +38,14 @@ exports.getProducts = (req, res) => {
     .catch((err) => console.log(err));
 };
 
-/*
 exports.getEditProduct = (req, res) => {
   const editMode = req.query.edit;
   if (!editMode) {
     return res.redirect('/');
   }
   const prodId = req.params.productId;
-  req.user
-    .getProducts({ where: { id: prodId } })
-    //Product.findByPk(prodId)
-    .then((products) => {
-      const product = products[0];
+  Product.findById(prodId)
+    .then((product) => {
       if (!product) {
         return res.redirect('/');
       }
@@ -64,23 +61,25 @@ exports.postEditProduct = (req, res) => {
   const prodId = req.body.productId;
   const updatedTitle = req.body.title;
   const updatedPrice = req.body.price;
-  const updatedImageUrl = req.body.imageUrl;
   const updatedDesc = req.body.description;
-  Product.findByPk(prodId)
-    .then((product) => {
-      product.title = updatedTitle;
-      product.price = updatedPrice;
-      product.imageUrl = updatedImageUrl;
-      product.description = updatedDesc;
-      return product.save(); // saving changes in db
-    })
+  const updatedImageUrl = req.body.imageUrl;
+
+  const product = new Product(
+    updatedTitle,
+    updatedPrice,
+    updatedDesc,
+    updatedImageUrl,
+    new ObjectId(prodId)
+  );
+  product
+    .save()
     .then((result) => {
       console.log('Product updated');
       res.redirect('/admin/products');
     })
     .catch((err) => console.log(err));
 };
-
+/*
 exports.postDeleteProduct = (req, res) => {
   const prodId = req.body.productId;
   Product.findByPk(prodId)
