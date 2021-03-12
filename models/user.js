@@ -67,6 +67,12 @@ class User {
       });
   }
 
+  deleteItemFromCart(productId) {
+    const updatedCartItems = this.cart.items.filter((item) => {
+      return item.productId.toString() !== productId.toString();
+    });
+  }
+
   static findById(userId) {
     const db = getDB();
     return db
