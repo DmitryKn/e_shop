@@ -35,9 +35,11 @@ exports.getProductDetails = (req, res) => {
 };
 
 exports.getCart = (req, res, next) => {
-  req.user
-    .getCart()
-    .then((products) => {
+  req.user //mapping cart items data
+    .populate('cart.items.productId')
+    .execPopulate()
+    .then((user) => {
+      const products = user.cart.items;
       res.render('shop/cart', {
         path: '/cart',
         products: products,
@@ -53,6 +55,16 @@ exports.postCart = (req, res) => {
       return req.user.addToCart(product);
     })
     .then((result) => res.redirect('/cart'))
+    .catch((err) => console.log(err));
+};
+
+exports.postCartDeleteItem = (req, res) => {
+  const prodId = req.body.productId;
+  req.user
+    .deleteItemFromCart(prodId)
+    .then((result) => {
+      res.redirect('/cart');
+    })
     .catch((err) => console.log(err));
 };
 
@@ -75,16 +87,6 @@ exports.getOrders = (req, res) => {
         pageTitle: 'Orders',
         orders: orders,
       });
-    })
-    .catch((err) => console.log(err));
-};
-
-exports.postCartDeleteItem = (req, res) => {
-  const prodId = req.body.productId;
-  req.user
-    .deleteItemFromCart(prodId)
-    .then((result) => {
-      res.redirect('/cart');
     })
     .catch((err) => console.log(err));
 };

@@ -9,10 +9,10 @@
         <div class="d-flex flex-column">
           <% products.forEach(p => { %>
             <div class="card d-flex flex-row justify-content-between">
-              <p class="card-title"> <%= p.title %> </p>
+              <p class="card-title"> <%= p.productId.title %> </p>
               <p class="card-title"> Quantity: <%= p.quantity %></p>
               <form action="/cart-delete-item" method="POST">
-                <input type="hidden" value="<%= p._id %>" name="productId">
+                <input type="hidden" value="<%= p.productId._id %>" name="productId">
                 <button class="btn btn-danger" type="submit">DELETE</button>
               </form>
             </div>
