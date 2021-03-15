@@ -68,7 +68,7 @@ exports.postOrder = (req, res) => {
 
 exports.getOrders = (req, res) => {
   req.user
-    .getOrders({ include: ['products'] })
+    .getOrders()
     .then((orders) => {
       console.log(orders);
       res.render('shop/orders', {

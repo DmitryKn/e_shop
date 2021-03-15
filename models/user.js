@@ -106,7 +106,13 @@ class User {
 
   getOrders() {
     const db = getDB();
-    //return db.collection('orders').
+    return db
+      .collection('orders')
+      .find({
+        //find all orders for this user
+        'user._id': new mongodb.ObjectID(this._id),
+      })
+      .toArray();
   }
 
   static findById(userId) {
