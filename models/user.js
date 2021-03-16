@@ -52,89 +52,9 @@ userSchema.methods.deleteItemFromCart = function (productId) {
   return this.save();
 };
 
+userSchema.methods.clearCart = function () {
+  this.cart = { items: [] };
+  return this.save();
+};
+
 module.exports = mongoose.model('User', userSchema);
-
-//   getCart() {
-//     const db = getDB();
-//     const productIds = this.cart.items.map((i) => {
-//       return i.productId;
-//     });
-//     return db
-//       .collection('products')
-//       .find({ _id: { $in: productIds } })
-//       .toArray()
-//       .then((products) => {
-//         return products.map((p) => {
-//           return {
-//             ...p,
-//             quantity: this.cart.items.find((i) => {
-//               return i.productId.toString() === p._id.toString();
-//             }).quantity,
-//           };
-//         });
-//       });
-//   }
-
-//   deleteItemFromCart(productId) {
-//     const updatedCartItems = this.cart.items.filter((item) => {
-//       return item.productId.toString() !== productId.toString();
-//     });
-//     const db = getDB();
-//     return db
-//       .collection('users')
-//       .updateOne(
-//         { _id: new mongodb.ObjectId(this._id) },
-//         { $set: { cart: { items: updatedCartItems } } }
-//       );
-//   }
-
-//   addOrder() {
-//     const db = getDB();
-//     return this.getCart()
-//       .then((products) => {
-//         const order = {
-//           items: products,
-//           user: {
-//             _id: new mongodb.ObjectId(this._id),
-//             name: this.username,
-//           },
-//         };
-//         return db.collection('orders').insertOne(order);
-//       })
-//       .then((result) => {
-//         this.cart = { items: [] };
-//         return db
-//           .collection('users')
-//           .updateOne(
-//             { _id: new mongodb.ObjectId(this._id) },
-//             { $set: { cart: { items: [] } } }
-//           );
-//       });
-//   }
-
-//   getOrders() {
-//     const db = getDB();
-//     return db
-//       .collection('orders')
-//       .find({
-//         //find all orders for this user
-//         'user._id': new mongodb.ObjectID(this._id),
-//       })
-//       .toArray();
-//   }
-
-//   static findById(userId) {
-//     const db = getDB();
-//     return db
-//       .collection('users')
-//       .findOne({ _id: new mongodb.ObjectId(userId) })
-//       .then((user) => {
-//         return user;
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   }
-// }
-
-// module.exports = User;
