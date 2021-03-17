@@ -4,7 +4,7 @@ const Order = require('../models/order');
 exports.getMainPage = (req, res) => {
   res.render('shop/index', {
     pageTitle: 'Shop',
-    isAuthenticated: req.isLoggedIn,
+    isAuthenticated: req.session.isLoggedIn,
   });
 };
 
@@ -14,7 +14,7 @@ exports.getProducts = (req, res) => {
       res.render('shop/product-list', {
         pageTitle: 'List',
         products: products,
-        isAuthenticated: req.isLoggedIn,
+        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -26,7 +26,7 @@ exports.getProduct = (req, res) => {
     .then((product) => {
       res.render('shop/product-details', {
         product: product,
-        isAuthenticated: req.isLoggedIn,
+        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -35,7 +35,7 @@ exports.getProduct = (req, res) => {
 exports.getProductDetails = (req, res) => {
   res.render('shop/product-details', {
     pageTitle: 'Details',
-    isAuthenticated: req.isLoggedIn,
+    isAuthenticated: req.session.isLoggedIn,
   });
 };
 
@@ -48,7 +48,7 @@ exports.getCart = (req, res, next) => {
       res.render('shop/cart', {
         path: '/cart',
         products: products,
-        isAuthenticated: req.isLoggedIn,
+        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -107,7 +107,7 @@ exports.getOrders = (req, res, next) => {
         path: '/orders',
         pageTitle: 'Your Orders',
         orders: orders,
-        isAuthenticated: req.isLoggedIn,
+        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));

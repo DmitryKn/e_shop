@@ -16,6 +16,7 @@ app.set('views', 'views');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
 
 app.use((req, res, next) => {
   User.findById('604f9e39254334b1b01e11ba')
@@ -31,7 +32,7 @@ app.use(shopRoutes);
 app.use(authRoutes);
 
 app.use((req, res, next) => {
-  res.render('404');
+  res.render('404', { isAuthenticated: req.session.isLoggedIn });
 });
 
 mongoose
