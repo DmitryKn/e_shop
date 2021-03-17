@@ -4,5 +4,9 @@
 <body>
   <%- include('../layouts/nav.ejs') %>
       <h1>Hello! Main page</h1>
-
+      <% if (isAuthenticated) { %>
+       <p>Залогинен</p>
+      <% } else { %>
+        <p>Не залогинен</p>
+      <% } %>
   <%- include('../layouts/footer.ejs') %>
