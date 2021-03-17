@@ -15,3 +15,12 @@ a {
 .active {
   color: red;
 }
+
+.nav-link {
+  color: white;
+}
+
+.navigation {
+  width: 900px;
+  margin: auto;
+}

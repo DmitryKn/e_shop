@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const shopRoutes = require('./routes/shopRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const authRoutes = require('./routes/auth');
 const path = require('path');
 
 const User = require('./models/user');
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use(authRoutes);
 
 app.use((req, res, next) => {
   res.render('404');
