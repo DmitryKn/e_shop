@@ -1,7 +1,11 @@
-module.exports.getLogin = (req, res, next) => {
-  res.render('auth/login');
+exports.getLogin = (req, res, next) => {
+  res.render('auth/login', {
+    isAuthenticated: req.isLoggedIn,
+  });
 };
 
-module.exports.postLogin = (req, res, next) => {
+exports.postLogin = (req, res, next) => {
+  res.setHeader('Set-Cookie', 'loggedIn=true');
+  req.isLoggedIn = true;
   res.redirect('/');
 };

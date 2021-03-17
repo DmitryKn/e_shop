@@ -2,15 +2,22 @@
   <nav class='navbar navbar-dark bg-primary'>
     <header class='navigation'>
     <div class='container-fluid d-flex justify-content-center align-items-center'>
-      <a class="nav-link" href="/">Home</a></li>
-      <a class="nav-link" href="/products">Products</a></li>
-      <a class="nav-link" href="/cart">Cart</a></li>
-      <a class="nav-link" href="/orders">Orders</a></li>
-      <!-- <a class="nav-link" href="/admin/add-product">Add Product</a>
-      <a class="nav-link" href="/admin/products">Admin Products</a> -->
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="/products">Products</a>
+      <a class="nav-link" href="/cart">Cart</a>
+      <a class="nav-link" href="/orders">Orders</a>
+      <% if (isAuthenticated) { %>
+        <a class="nav-link" href="/admin/add-product">Add Product</a>
+        <a class="nav-link" href="/admin/products">Admin Products</a>
+      <% } %>
       <div class='ms-auto p-2'>
-        <a class="nav-link" href="/login">Login</a></li>
+        <a class="nav-link" href="/login">Login</a>
       </div>
+      <% if (isAuthenticated) { %>
+      <div class='ms-auto p-2'>
+        <a class="nav-link" href="/login">Logout</a>
+      </div>
+      <% } %>
     </div>
     </header>
   </nav>
