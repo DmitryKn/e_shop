@@ -4,15 +4,21 @@
     <div class='container-fluid d-flex justify-content-center align-items-center'>
       <a class="nav-link" href="/">Home</a>
       <a class="nav-link" href="/products">Products</a>
-      <a class="nav-link" href="/cart">Cart</a>
-      <a class="nav-link" href="/orders">Orders</a>
       <% if (isAuthenticated) { %>
+        <a class="nav-link" href="/cart">Cart</a>
+        <a class="nav-link" href="/orders">Orders</a>
         <a class="nav-link" href="/admin/add-product">Add Product</a>
         <a class="nav-link" href="/admin/products">Admin Products</a>
       <% } %>
-      <div class='ms-auto p-2'>
-        <a class="nav-link" href="/login">Login</a>
-      </div>
+      <% if (!isAuthenticated) { %>
+        <div class='ms-auto p-2'>
+          <a class="btn btn-primary" href="/login" role="button">Login</a>
+        </div>
+      <% } else { %>
+        <form class='ms-auto p-2' action="/logout" method="POST">
+          <button class="btn btn-primary" role="button" href="/logout">Logout</button>
+        </form>
+      <% } %>
     </div>
     </header>
   </nav>
