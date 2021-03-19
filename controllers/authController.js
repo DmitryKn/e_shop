@@ -1,5 +1,4 @@
 exports.getLogin = (req, res, next) => {
-  console.log(req.session.isLoggedIn);
   res.render('auth/login', {
     isAuthenticated: req.session.isLoggedIn,
   });

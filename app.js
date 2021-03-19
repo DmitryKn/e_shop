@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 const shopRoutes = require('./routes/shopRoutes');
 const adminRoutes = require('./routes/adminRoutes');
@@ -11,12 +12,25 @@ const path = require('path');
 const User = require('./models/user');
 
 const app = express();
+const MONGODB_URI =
+  'mongodb+srv://Dimko:root@cluster0.xuwwp.mongodb.net/e_shop';
+const store = new MongoDBStore({
+  uri: MONGODB_URI,
+  collection: 'sessions',
+});
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
+app.use(
+  session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+  })
+);
 
 app.use((req, res, next) => {
   User.findById('604f9e39254334b1b01e11ba')
@@ -36,9 +50,7 @@ app.use((req, res, next) => {
 });
 
 mongoose
-  .connect(
-    'mongodb+srv://Dimko:root@cluster0.xuwwp.mongodb.net/e_shop?retryWrites=true&w=majority'
-  )
+  .connect(MONGODB_URI)
   .then((result) => {
     /*const user = new User({
       name: 'Dimko',
