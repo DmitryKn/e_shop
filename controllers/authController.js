@@ -1,3 +1,5 @@
+const User = require('../models/user');
+
 exports.getLogin = (req, res, next) => {
   res.render('auth/login', {
     isAuthenticated: false,
@@ -24,12 +26,29 @@ exports.getSignup = (req, res, next) => {
   res.render('auth/signup', {
     isAuthenticated: false,
   });
-  res.redirect('/');
 };
 
 exports.postSignup = (req, res, next) => {
-  res.render('auth/signup', {
-    isAuthenticated: req.session.isLoggedIn,
-  });
-  res.redirect('/');
+  const email = req.body.email;
+  const password = req.body.password;
+  const confirmPassword = req.body.confirmPassword;
+  User.findOne({ email: email })
+    .exec()
+    .then((userDoc) => {
+      if (userDoc) {
+        return res.redirect('/signup');
+      }
+      const user = new User({
+        email: email,
+        password: password,
+        cart: { items: [] },
+      });
+      return user.save();
+    })
+    .then((result) => {
+      res.redirect('/login');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };

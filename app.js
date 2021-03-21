@@ -31,7 +31,7 @@ app.use(
     store: store,
   })
 );
-
+/*
 app.use((req, res, next) => {
   User.findById('604f9e39254334b1b01e11ba')
     .then((user) => {
@@ -40,7 +40,7 @@ app.use((req, res, next) => {
     })
     .catch((err) => console.log(err));
 });
-
+*/
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
@@ -52,12 +52,6 @@ app.use((req, res, next) => {
 mongoose
   .connect(MONGODB_URI)
   .then((result) => {
-    /*const user = new User({
-      name: 'Dimko',
-      email: 'test@test.com',
-      cart: { items: [] },
-    });
-    user.save();*/
     app.listen(3000);
     console.log('DB connected');
   })
