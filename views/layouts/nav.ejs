@@ -13,6 +13,7 @@
       <% if (!isAuthenticated) { %>
         <div class='ms-auto p-2'>
           <a class="btn btn-primary" href="/login" role="button">Login</a>
+          <a class="btn btn-primary" href="/signup" role="button">Signup</a>
         </div>
       <% } else { %>
         <form class='ms-auto p-2' action="/logout" method="POST">
