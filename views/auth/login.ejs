@@ -6,6 +6,9 @@
     <%- include('../layouts/nav.ejs') %>
       <div class="col-5 mx-auto mt-5">
         <h2 class='mb-3'>Login form</h2>
+        <% if (errorMessage) { %>
+          <div class="alert alert-danger" role="alert"><%= errorMessage %></div>
+        <% } %>
         <form action='/login' method='POST'>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
