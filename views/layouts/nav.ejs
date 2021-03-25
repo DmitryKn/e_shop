@@ -17,6 +17,7 @@
         </div>
       <% } else { %>
         <form class='ms-auto p-2' action="/logout" method="POST">
+          <input type="hidden" name='_csrf' value='<%= csrfToken %>'>
           <button class="btn btn-primary" role="button" href="/logout">Logout</button>
         </form>
       <% } %>

@@ -1,10 +1,9 @@
 const Product = require('../models/product');
 const Order = require('../models/order');
 
-exports.getMainPage = (req, res) => {
+exports.getIndex = (req, res) => {
   res.render('shop/index', {
     pageTitle: 'Shop',
-    isAuthenticated: req.session.isLoggedIn,
   });
 };
 
@@ -14,7 +13,6 @@ exports.getProducts = (req, res) => {
       res.render('shop/product-list', {
         pageTitle: 'List',
         products: products,
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -26,7 +24,6 @@ exports.getProduct = (req, res) => {
     .then((product) => {
       res.render('shop/product-details', {
         product: product,
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -35,33 +32,34 @@ exports.getProduct = (req, res) => {
 exports.getProductDetails = (req, res) => {
   res.render('shop/product-details', {
     pageTitle: 'Details',
-    isAuthenticated: req.session.isLoggedIn,
   });
 };
 
 exports.getCart = (req, res, next) => {
-  req.user //mapping cart items data
+  req.user
     .populate('cart.items.productId')
     .execPopulate()
     .then((user) => {
       const products = user.cart.items;
       res.render('shop/cart', {
         path: '/cart',
+        pageTitle: 'Your Cart',
         products: products,
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
 };
 
-exports.postCart = (req, res) => {
+exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
   Product.findById(prodId)
     .then((product) => {
       return req.user.addToCart(product);
     })
-    .then((result) => res.redirect('/cart'))
-    .catch((err) => console.log(err));
+    .then((result) => {
+      console.log(result);
+      res.redirect('/cart');
+    });
 };
 
 exports.postCartDeleteItem = (req, res) => {
@@ -84,7 +82,7 @@ exports.postOrder = (req, res, next) => {
       });
       const order = new Order({
         user: {
-          name: req.user.name,
+          email: req.user.email,
           userId: req.user,
         },
         products: products,
@@ -107,7 +105,6 @@ exports.getOrders = (req, res, next) => {
         path: '/orders',
         pageTitle: 'Your Orders',
         orders: orders,
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
