@@ -103,7 +103,6 @@ exports.getOrders = (req, res, next) => {
     .then((orders) => {
       res.render('shop/orders', {
         path: '/orders',
-        pageTitle: 'Your Orders',
         orders: orders,
       });
     })
