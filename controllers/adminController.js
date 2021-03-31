@@ -66,7 +66,7 @@ exports.postEditProduct = (req, res, next) => {
   Product.findById(prodId)
     .then((product) => {
       //authorization. permission for editing
-      if (product.userId.toString() !== req.user._idtoString()) {
+      if (product.userId.toString() !== req.user._id.toString()) {
         res.redirect('/');
       }
 
