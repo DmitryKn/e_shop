@@ -6,12 +6,22 @@ const User = require('../models/user');
 const router = express.Router();
 
 router.get('/login', AuthController.getLogin);
-router.post('/login', AuthController.postLogin);
+router.post(
+  '/login',
+  //login validation
+  [
+    body('email').isEmail().withMessage('Please enter a valid email address.'),
+    body('password', 'Please enter a valid password.')
+      .isLength({ min: 6 })
+      .isAlphanumeric(),
+  ],
+  AuthController.postLogin
+);
 router.post('/logout', AuthController.postLogout);
 router.get('/signup', AuthController.getSignup);
 router.post(
   '/signup',
-  //validation email and passwords,
+  //sign up validation,
   [
     check('email')
       .isEmail()
