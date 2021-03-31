@@ -1,13 +1,31 @@
 const Product = require('../models/product');
+const { validationResult } = require('express-validator/check');
 
 exports.getAddProduct = (req, res) => {
   res.render('admin/edit-product', {
     editing: false,
+    hasError: false,
+    errorMessage: null,
   });
 };
 
 exports.postAddProduct = (req, res, next) => {
   const { title, price, description, imageUrl } = req.body;
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render('admin/edit-product', {
+      editing: false,
+      errorMessage: errors.array()[0].msg,
+      hasError: true,
+      product: {
+        title: title,
+        price: price,
+        description: description,
+        imageUrl: imageUrl,
+      },
+    });
+  }
   const product = new Product({
     title,
     price,
@@ -32,6 +50,7 @@ exports.getProducts = (req, res) => {
       res.render('admin/products', {
         pageTitle: 'List',
         products: products,
+        hasError: false,
       });
     })
     .catch((err) => console.log(err));
@@ -51,6 +70,8 @@ exports.getEditProduct = (req, res) => {
       res.render('admin/edit-product', {
         editing: editMode,
         product: product,
+        hasError: false,
+        errorMessage: null,
       });
     })
     .catch((err) => console.log(err));
@@ -62,6 +83,22 @@ exports.postEditProduct = (req, res, next) => {
   const updatedPrice = req.body.price;
   const updatedImageUrl = req.body.imageUrl;
   const updatedDesc = req.body.description;
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render('admin/edit-product', {
+      editing: true,
+      errorMessage: errors.array()[0].msg,
+      hasError: true,
+      product: {
+        title: updatedTitle,
+        price: updatedPrice,
+        description: updatedDesc,
+        imageUrl: updatedImageUrl,
+        _id: prodId,
+      },
+    });
+  }
 
   Product.findById(prodId)
     .then((product) => {
@@ -69,7 +106,6 @@ exports.postEditProduct = (req, res, next) => {
       if (product.userId.toString() !== req.user._id.toString()) {
         res.redirect('/');
       }
-
       product.title = updatedTitle;
       product.price = updatedPrice;
       product.description = updatedDesc;

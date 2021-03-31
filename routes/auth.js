@@ -10,10 +10,14 @@ router.post(
   '/login',
   //login validation
   [
-    body('email').isEmail().withMessage('Please enter a valid email address.'),
+    body('email')
+      .isEmail()
+      .withMessage('Please enter a valid email address.')
+      .normalizeEmail(),
     body('password', 'Please enter a valid password.')
       .isLength({ min: 6 })
-      .isAlphanumeric(),
+      .isAlphanumeric()
+      .trim(),
   ],
   AuthController.postLogin
 );
@@ -35,19 +39,23 @@ router.post(
             );
           }
         });
-      }),
+      })
+      .normalizeEmail(),
     body(
       'password',
       'Please enter a password with only numbers and text at least 6 characters.'
     )
       .isLength({ min: 6 })
-      .isAlphanumeric(),
-    body('confirmPassword').custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error('Passwords should be equal!');
-      }
-      return true;
-    }),
+      .isAlphanumeric()
+      .trim(),
+    body('confirmPassword')
+      .custom((value, { req }) => {
+        if (value !== req.body.password) {
+          throw new Error('Passwords should be equal!');
+        }
+        return true;
+      })
+      .trim(),
   ],
   AuthController.postSignup
 );
