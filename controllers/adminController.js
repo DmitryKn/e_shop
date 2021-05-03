@@ -22,7 +22,8 @@ exports.postAddProduct = (req, res, next) => {
         title: title,
         price: price,
         description: description,
-        imageUrl: imageUrl,
+        imageUrl: image,
+        //imageUrl: imageUrl - if no file uploads
       },
     });
   }

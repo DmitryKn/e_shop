@@ -1,10 +1,10 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
+const multer = require('multer');
 
 const User = require('./models/user');
 const shopRoutes = require('./routes/shopRoutes');
@@ -21,12 +21,21 @@ const store = new MongoDBStore({
   collection: 'sessions',
 });
 const csftProtection = csrf();
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'data/images');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.filename + '-' + file.originalname);
+  },
+});
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 //Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+app.use(multer({ dest: 'data/images' }).single('image'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({
