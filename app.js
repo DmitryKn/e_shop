@@ -21,21 +21,36 @@ const store = new MongoDBStore({
   collection: 'sessions',
 });
 const csftProtection = csrf();
+
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'data/images');
+    cb(null, 'images');
   },
   filename: (req, file, cb) => {
-    cb(null, file.filename + '-' + file.originalname);
+    cb(null, file.originalname);
   },
 });
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg'
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 //Middleware
 app.use(express.urlencoded({ extended: true }));
-app.use(multer({ dest: 'data/images' }).single('image'));
+app.use(
+  multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
+);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({
@@ -81,13 +96,11 @@ app.use(shopRoutes);
 app.use(authRoutes);
 
 //Error Handling
-app.get('/500', errorController.get500);
+//app.get('/500', errorController.get500);
 app.use(errorController.get404);
-app.use((error, req, res, next) => {
-  res.status(500).render('500', {
-    isAuthenticated: req.session.isLoggedIn,
-  });
-});
+// app.use((error, req, res, next) => {
+//   res.redirect('/500');
+// });
 
 //Database connection
 mongoose
