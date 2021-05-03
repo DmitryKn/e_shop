@@ -10,7 +10,7 @@
         <% if (products.length> 0) { %>
           <% for (item of products) { %>
             <article class="col-3 card">
-              <img src="<%= item.imageUrl %>" class="card-img-top" alt="<%= item.title %>">
+              <img src="/<%= item.imageUrl %>" class="card-img-top" alt="<%= item.title %>">
               <div class="card-body">
                 <h5 class="card-title text-center"><%= item.title %></h5>
                 <h5 class="card-text text-center">$<%= item.price %></h5>

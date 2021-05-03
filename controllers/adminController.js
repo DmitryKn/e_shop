@@ -33,12 +33,11 @@ exports.postAddProduct = (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(422).render('admin/edit-product', {
       editing: false,
-      errorMessage: errors.array()[0].msg,
+      errorMessage: 'Attached file is not an image.',
       hasError: true,
       product: {
         title: title,
         price: price,
-        imageUrl: image,
         description: description,
       },
     });
