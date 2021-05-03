@@ -11,6 +11,7 @@ const shopRoutes = require('./routes/shopRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/auth');
 const path = require('path');
+const errorController = require('./controllers/errorController');
 
 const app = express();
 const MONGODB_URI =
@@ -43,10 +44,15 @@ app.use((req, res, next) => {
   }
   User.findById(req.session.user._id)
     .then((user) => {
+      if (!user) {
+        return next();
+      }
       req.user = user;
       next();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      throw new Error(err);
+    });
 });
 
 //CSRF protection
@@ -62,9 +68,8 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 
-app.use((req, res, next) => {
-  res.render('404');
-});
+app.get('/500', errorController.get500);
+app.use(errorController.get404);
 
 //Database connection
 mongoose
