@@ -1,0 +1,15 @@
+<div class="pagination d-flex justify-content-center">
+    <% if (currentPage !==1 && prevPage !==1) {%>
+      <a class="btn btn-primary" href="?page=1">1</a>
+    <% } %>
+    <% if (hasPrevPage) {%>
+      <a class="btn btn-primary" href="?page=<%= prevPage %>"><%= prevPage %></a>
+    <% } %>
+      <a class="btn btn-primary active" href="?page=<%= currentPage %>"><%= currentPage %></a>
+    <% if (hasNextPage) { %>
+      <a class="btn btn-primary" href="?page=<%= nextPage %>"><%= nextPage %></a>
+    <% } %>
+    <% if (lastPage !==currentPage && nextPage !==lastPage) { %>
+      <a class="btn btn-primary" href="?page=<%= lastPage %>"><%= lastPage %></a>
+  <% } %>
+</div>

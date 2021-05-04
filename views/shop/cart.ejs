@@ -4,13 +4,14 @@
 
   <body>
     <%- include('../layouts/nav.ejs') %>
+    <h1 class="text-center">CART</h1>
     <main class="col-6 mx-auto">
       <% if (products.length > 0) { %>
         <div class="d-flex flex-column">
           <% products.forEach(p => { %>
-            <div class="card d-flex flex-row justify-content-between">
-              <p class="card-title"> <%= p.productId.title %> </p>
-              <p class="card-title"> Quantity: <%= p.quantity %></p>
+            <div class="card d-flex flex-row justify-content-between text-center">
+              <p class="card-title fw-bold">Product name: <%= p.productId.title %></p>
+              <p class="card-title fw-bold">Quantity: <%= p.quantity %></p>
               <form action="/cart-delete-item" method="POST">
                 <input type="hidden" name='_csrf' value='<%= csrfToken %>'>
                 <input type="hidden" value="<%= p.productId._id %>" name="productId">
@@ -19,13 +20,13 @@
             </div>
           <% }) %>
         </div>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center my-3">
           <form action="/create-order" method="POST">
             <input type="hidden" name='_csrf' value='<%= csrfToken %>'>
             <button type="submit" class="btn btn-primary">Order now</button>
           </form>
         </div>
       <% } else { %>
-       <h1>No products in Cart</h1>
+       <h3 class="text-center">No products in Cart</h3>
       <% } %>
     </main>

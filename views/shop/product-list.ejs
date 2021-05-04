@@ -6,10 +6,10 @@
   <body>
     <%- include('../layouts/nav.ejs')%>
     <h1 class="text-center">PRODUCT LIST</h1>
-    <main class="d-flex flex-row">
+    <main class="row align-items-start">
         <% if (products.length> 0) { %>
           <% for (item of products) { %>
-            <article class="col-3 card">
+            <article class="col-4 card">
               <img src="/<%= item.imageUrl %>" class="card-img-top" alt="<%= item.title %>">
               <div class="card-body">
                 <h5 class="card-title text-center"><%= item.title %></h5>
@@ -28,6 +28,7 @@
               </div>
             </article>
             <% } %>
+            <%- include('../layouts/pagination.ejs')%>
         <% } else { %>
           <p>No products</p>
         <% } %>

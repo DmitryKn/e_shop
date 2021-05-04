@@ -1,18 +1,31 @@
 const Product = require('../models/product');
 const Order = require('../models/order');
 
-exports.getIndex = (req, res) => {
-  res.render('shop/index', {
-    pageTitle: 'Shop',
-  });
-};
+const ITEMS_PER_PAGE = 3;
 
-exports.getProducts = (req, res) => {
+exports.getIndex = (req, res) => {
+  const page = +req.query.page || 1;
+  let totalItems;
+
   Product.find()
+    .countDocuments() //how many products in db
+    .then((numProducts) => {
+      totalItems = numProducts;
+      return Product.find()
+        .skip((page - 1) * ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE);
+    })
     .then((products) => {
-      res.render('shop/product-list', {
+      res.render('shop/index', {
         pageTitle: 'List',
         products: products,
+        totalProducts: totalItems,
+        currentPage: page,
+        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        hasPrevPage: page > 1,
+        nextPage: page + 1,
+        prevPage: page - 1,
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
       });
     })
     .catch((err) => {
@@ -22,6 +35,39 @@ exports.getProducts = (req, res) => {
     });
 };
 
+/*
+exports.getProducts = (req, res) => {
+  const page = +req.query.page || 1;
+  let totalItems;
+
+  Product.find()
+    .countDocuments() //how many products in db
+    .then((numProducts) => {
+      totalItems = numProducts;
+      return Product.find()
+        .skip((page - 1) * ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE);
+    })
+    .then((products) => {
+      res.render('shop/product-list', {
+        pageTitle: 'List',
+        products: products,
+        totalProducts: totalItems,
+        currentPage: page,
+        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        hasPrevPage: page > 1,
+        nextPage: page + 1,
+        prevPage: page - 1,
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
+      });
+    })
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
+*/
 exports.getProduct = (req, res) => {
   const prodId = req.params.itemId;
   Product.findById(prodId)
