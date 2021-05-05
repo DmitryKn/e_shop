@@ -1,6 +1,6 @@
-# This is a classic web project of e-commerce running on the server side.
+## This is a web project of e-commerce running with Node.js on the server side.
 
-# Tools: Node.js, MongoDB, EJS template, HTML, CSS
+## Tools: Node.js, MongoDB, EJS template, HTML, CSS
 
 ## Features:
 
