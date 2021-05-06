@@ -17,5 +17,5 @@
 
 ## To start project:
 
-- npm init
+- npm install
 - npm start
